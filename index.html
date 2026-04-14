@@ -63,7 +63,7 @@
       const [expandedKpi, setExpandedKpi] = useState(null);
 
       const perfBonus = categories.reduce((sum, c) => sum + (sales[c.key] || 0) * stages[stage].rates[c.key], 0);
-      const getRegBonus = () => regCount >= 80 ? 200 : regCount >= 50 ? 140 : regCount >= 30 ? 100 : 0;
+      const getRegBonus = () => regCount >= 80 ? 130 : regCount >= 50 ? 90 : regCount >= 30 ? 50 : 0;
       const rawBonus = perfBonus + getRegBonus();
       const kpiPct = Object.values(kpiScores).reduce((a, b) => a + b, 0) / kpiItems.length;
       const finalBonus = rawBonus * (kpiPct / 10);
