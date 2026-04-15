@@ -11,6 +11,9 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #f4f4f4; font-family: 'Segoe UI', sans-serif; }
     input[type=range] { width: 100%; accent-color: #1a1a1a; }
+    input[type=number] { -moz-appearance: textfield; }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
     button { font-family: 'Segoe UI', sans-serif; }
   </style>
 </head>
@@ -33,23 +36,31 @@
       { key: "wellness", label: "🌿 გამაჯანსაღებელი" },
     ];
 
-    const regBonusData = [
-      { count: 30, bonus: 50 },
-      { count: 50, bonus: 90 },
-      { count: 80, bonus: 130 },
-    ];
-
-    const kpiItems = [
-      { key: "k1", label: "სერვისის ხარისხი", icon: "😊", who: "მონიტორინგი + მენეჯერი + მომხმარებელი" },
-      { key: "k2", label: "სალარო ოპერაციების სიზუსტე", icon: "🖥️", who: "მენეჯერი / ხელმძღვანელი" },
-      { key: "k3", label: "სიჩქარე / ეფექტურობა", icon: "⚡", who: "მონიტორინგი + AI კამერა + მენეჯერი" },
-      { key: "k4", label: "პროდუქტის ხარისხი", icon: "☕", who: "მონიტორინგი + მენეჯერი + მომხმარებელი" },
-      { key: "k5", label: "ჰიგიენა და სისუფთავე", icon: "🧹", who: "მონიტორინგი + მისტიური სტუმარი + მენეჯერი" },
-      { key: "k6", label: "Upsell / გაყიდვების ზრდა", icon: "📈", who: "მონიტორინგი + მენეჯერი + Shopify სტატისტიკა" },
-      { key: "k7", label: "გუნდის მუშაობა", icon: "🤝", who: "მენეჯერი + ფილიალის შედეგი + აღწერა" },
-      { key: "k8", label: "დისციპლინა და პასუხისმგებლობა", icon: "📋", who: "მონიტორინგი + მენეჯერი + სერვისი/მომარაგება" },
-      { key: "k9", label: "ინიციატივა და განვითარება", icon: "🌱", who: "მენეჯერი / ხელმძღვანელი" },
-      { key: "k10", label: "ცოდნის ტესტი / სერტიფიკაცია", icon: "📚", who: "ტესტირება" },
+    const kpiGroups = [
+      {
+        key: "sales", icon: "📈", label: "გაყიდვები და ზრდა", weight: 40,
+        color: "#1a6b3a", bg: "#E8F5E9",
+        items: ["Upsell / საშუალო ჩეკის ზრდა", "სალარო ოპერაციების სიზუსტე", "მომხმარებლის რეგისტრაცია და დაბრუნება"],
+        who: "მონიტორინგი + თიმ ლიდერი + საოპერაციო ხელმძღვანელი"
+      },
+      {
+        key: "cx", icon: "⭐", label: "მომხმარებლის გამოცდილება", weight: 20,
+        color: "#1565C0", bg: "#E3F2FD",
+        items: ["სერვისის ხარისხი და კომუნიკაცია", "პროდუქტის ხარისხი და სტანდარტი", "სიჩქარე და ეფექტურობა"],
+        who: "მონიტორინგი (კამერა) + თიმ ლიდერი + მომხმარებლის შეფასება"
+      },
+      {
+        key: "standards", icon: "🧹", label: "სტანდარტები და სისუფთავე", weight: 20,
+        color: "#6A1B9A", bg: "#F3E5F5",
+        items: ["ფილიალის სისუფთავე (შიდა/გარე)", "HACCP სტანდარტების დაცვა", "პირადი ჰიგიენა და გარეგნობა"],
+        who: "მონიტორინგი + მისტიური სტუმარი + თიმ ლიდერი"
+      },
+      {
+        key: "team", icon: "🤝", label: "გუნდი და განვითარება", weight: 20,
+        color: "#E65100", bg: "#FFF3E0",
+        items: ["დისციპლინა და პუნქტუალურობა", "გუნდური მუშაობა და კოორდინაცია", "ცოდნის ტესტი და ინიციატივა"],
+        who: "თიმ ლიდერი + საოპერაციო ხელმძღვანელი + ტესტირება"
+      },
     ];
 
     const TABS = ["🧮 კალკულატორი", "🏆 ბონუს სისტემა", "📊 KPI სისტემა"];
@@ -58,27 +69,25 @@
       const [tab, setTab] = useState(0);
       const [stage, setStage] = useState(0);
       const [sales, setSales] = useState({ hot: 0, cold_cocktail: 0, cold_coffee: 0, alcohol: 0, wellness: 0 });
-      const [regCount, setRegCount] = useState(0);
-      const [kpiScores, setKpiScores] = useState(Object.fromEntries(kpiItems.map(k => [k.key, 10])));
+      const [kpiScores, setKpiScores] = useState({ sales: 10, cx: 10, standards: 10, team: 10 });
       const [expandedKpi, setExpandedKpi] = useState(null);
 
       const perfBonus = categories.reduce((sum, c) => sum + (sales[c.key] || 0) * stages[stage].rates[c.key], 0);
-      const getRegBonus = () => regCount >= 80 ? 130 : regCount >= 50 ? 90 : regCount >= 30 ? 50 : 0;
-      const rawBonus = perfBonus + getRegBonus();
-      const kpiPct = Object.values(kpiScores).reduce((a, b) => a + b, 0) / kpiItems.length;
-      const finalBonus = rawBonus * (kpiPct / 10);
+      const kpiPct = kpiGroups.reduce((sum, g) => sum + (kpiScores[g.key] / 10) * g.weight, 0) / 100;
+      const finalBonus = perfBonus * kpiPct;
+
+      const scoreColor = (v) => v >= 8 ? "#2E7D32" : v >= 5 ? "#e67e22" : "#c0392b";
 
       const card = (children, style = {}) => (
         <div style={{ background: "white", borderRadius: "14px", padding: "18px", boxShadow: "0 2px 8px rgba(0,0,0,0.06)", marginBottom: "14px", ...style }}>{children}</div>
       );
-      const sec = (t) => <div style={{ fontSize: "15px", fontWeight: "800", color: "#1a1a1a", marginBottom: "14px", paddingBottom: "8px", borderBottom: "2px solid #f0f0f0" }}>{t}</div>;
-
-      const Counter = ({ val, onChange }) => (
-        <input
-          type="number" min="0" value={val}
+      const sec = (t) => (
+        <div style={{ fontSize: "15px", fontWeight: "800", color: "#1a1a1a", marginBottom: "14px", paddingBottom: "8px", borderBottom: "2px solid #f0f0f0" }}>{t}</div>
+      );
+      const NumInput = ({ val, onChange }) => (
+        <input type="number" min="0" value={val}
           onChange={e => onChange(Math.max(0, Number(e.target.value) || 0))}
-          style={{ width: 70, padding: "6px 10px", borderRadius: "8px", border: "1px solid #ddd", fontSize: 16, fontWeight: "700", textAlign: "center", outline: "none", fontFamily: "inherit" }}
-        />
+          style={{ width: 70, padding: "6px 10px", borderRadius: "8px", border: "1px solid #ddd", fontSize: 16, fontWeight: "700", textAlign: "center", outline: "none", fontFamily: "inherit" }} />
       );
 
       return (
@@ -102,6 +111,7 @@
             ))}
           </div>
 
+          {/* ===== CALCULATOR ===== */}
           {tab === 0 && <>
             {card(<>
               {sec("🏆 სთეიჯის არჩევა")}
@@ -127,60 +137,56 @@
                     <div style={{ fontSize: "13px", fontWeight: "600" }}>{c.label}</div>
                     <div style={{ fontSize: "11px", color: "#999" }}>₾{stages[stage].rates[c.key].toFixed(2)} / სასმელი</div>
                   </div>
-                  <Counter val={sales[c.key] || 0} onChange={v => setSales(s => ({ ...s, [c.key]: v }))} />
+                  <NumInput val={sales[c.key] || 0} onChange={v => setSales(s => ({ ...s, [c.key]: v }))} />
                 </div>
               ))}
             </>)}
 
             {card(<>
-              {sec("👤 რეგისტრაცია")}
-              <div style={{ display: "flex", alignItems: "center", gap: "14px", background: "#f8f9fa", borderRadius: "10px", padding: "12px 16px" }}>
-                <Counter val={regCount} onChange={setRegCount} />
-                <div>
-                  <div style={{ fontSize: "16px", fontWeight: "800" }}>{regCount} რეგისტრაცია</div>
-                  <div style={{ fontSize: "11px", color: "#999" }}>→ ₾{getRegBonus()} ბონუსი</div>
-                </div>
-              </div>
-              {regCount > 0 && regCount < 30 && <div style={{ textAlign: "center", marginTop: "8px", fontSize: "12px", color: "#e67e22" }}>კიდევ {30 - regCount} პირველ ბონუსამდე</div>}
-            </>)}
-
-            {card(<>
-              {sec("📊 KPI შეფასება (თითოეული 0–10)")}
-              <div style={{ fontSize: "12px", color: "#888", marginBottom: "12px" }}>KPI პროცენტი პირდაპირ ამცირებს ან ზრდის ბონუსს</div>
-              {kpiItems.map(k => (
-                <div key={k.key} style={{ marginBottom: "10px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                    <span style={{ fontSize: "12px", fontWeight: "600" }}>{k.icon} {k.label}</span>
-                    <span style={{ fontWeight: "800", fontSize: "14px", color: kpiScores[k.key] >= 8 ? "#2E7D32" : kpiScores[k.key] >= 5 ? "#e67e22" : "#c0392b" }}>
-                      {kpiScores[k.key]}/10
-                    </span>
+              {sec("📊 KPI შეფასება")}
+              <div style={{ fontSize: "12px", color: "#888", marginBottom: "14px" }}>თითოეული 0–10 სკალაზე • KPI პროპორციულად მოქმედებს ბონუსზე</div>
+              {kpiGroups.map(g => (
+                <div key={g.key} style={{ marginBottom: "14px", background: g.bg, borderRadius: "12px", padding: "12px 14px", border: `1px solid ${g.color}22` }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                    <div>
+                      <span style={{ fontSize: "13px", fontWeight: "700", color: g.color }}>{g.icon} {g.label}</span>
+                      <span style={{ marginLeft: "8px", fontSize: "11px", background: g.color, color: "white", padding: "2px 7px", borderRadius: "10px" }}>{g.weight}%</span>
+                    </div>
+                    <span style={{ fontWeight: "800", fontSize: "16px", color: scoreColor(kpiScores[g.key]) }}>{kpiScores[g.key]}/10</span>
                   </div>
-                  <input type="range" min={0} max={10} step={1} value={kpiScores[k.key]}
-                    onChange={e => setKpiScores(s => ({ ...s, [k.key]: Number(e.target.value) }))} />
+                  <input type="range" min={0} max={10} step={1} value={kpiScores[g.key]}
+                    onChange={e => setKpiScores(s => ({ ...s, [g.key]: Number(e.target.value) }))} />
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "10px", color: "#999", marginTop: "2px" }}>
+                    <span>0</span><span>5</span><span>10</span>
+                  </div>
                 </div>
               ))}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f0f0f0", borderRadius: "10px", padding: "10px 14px", marginTop: "6px" }}>
-                <span style={{ fontWeight: "700", fontSize: "13px" }}>KPI საშუალო</span>
-                <span style={{ fontWeight: "800", fontSize: "18px", color: kpiPct >= 8 ? "#2E7D32" : kpiPct >= 5 ? "#e67e22" : "#c0392b" }}>
-                  {(kpiPct * 10).toFixed(0)}%
-                </span>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#1a1a1a", borderRadius: "10px", padding: "12px 14px" }}>
+                <span style={{ fontWeight: "700", fontSize: "13px", color: "white" }}>KPI საერთო პროცენტი</span>
+                <span style={{ fontWeight: "800", fontSize: "20px", color: "#FFD700" }}>{(kpiPct * 100).toFixed(0)}%</span>
               </div>
             </>)}
 
+            {/* Result */}
             <div style={{ background: "linear-gradient(135deg, #1a1a1a, #3a3a3a)", borderRadius: "14px", padding: "20px", color: "white", textAlign: "center" }}>
-              <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginBottom: "14px" }}>
-                <div><div style={{ fontSize: "10px", opacity: 0.6, marginBottom: "2px" }}>პერფორმანს</div><div style={{ fontWeight: "700", fontSize: "16px", color: "#FFD700" }}>₾{perfBonus.toFixed(2)}</div></div>
-                <div style={{ opacity: 0.4, alignSelf: "center" }}>+</div>
-                <div><div style={{ fontSize: "10px", opacity: 0.6, marginBottom: "2px" }}>რეგისტრაცია</div><div style={{ fontWeight: "700", fontSize: "16px", color: "#FFD700" }}>₾{getRegBonus()}</div></div>
-                <div style={{ opacity: 0.4, alignSelf: "center" }}>×</div>
-                <div><div style={{ fontSize: "10px", opacity: 0.6, marginBottom: "2px" }}>KPI</div><div style={{ fontWeight: "700", fontSize: "16px", color: "#FFD700" }}>{(kpiPct * 10).toFixed(0)}%</div></div>
+              <div style={{ display: "flex", justifyContent: "center", gap: "24px", marginBottom: "14px" }}>
+                <div>
+                  <div style={{ fontSize: "10px", opacity: 0.6, marginBottom: "2px" }}>პერფორმანს ბონუსი</div>
+                  <div style={{ fontWeight: "700", fontSize: "18px", color: "#FFD700" }}>₾{perfBonus.toFixed(2)}</div>
+                </div>
+                <div style={{ opacity: 0.4, alignSelf: "center", fontSize: "22px" }}>×</div>
+                <div>
+                  <div style={{ fontSize: "10px", opacity: 0.6, marginBottom: "2px" }}>KPI</div>
+                  <div style={{ fontWeight: "700", fontSize: "18px", color: "#FFD700" }}>{(kpiPct * 100).toFixed(0)}%</div>
+                </div>
               </div>
-              <div style={{ fontSize: "11px", opacity: 0.5, marginBottom: "4px" }}>სულ ბონუსი</div>
+              <div style={{ fontSize: "11px", opacity: 0.5, marginBottom: "4px" }}>საბოლოო ბონუსი</div>
               <div style={{ fontSize: "42px", fontWeight: "800", color: "#FFD700" }}>₾{finalBonus.toFixed(2)}</div>
-              {kpiPct < 10 && <div style={{ fontSize: "11px", opacity: 0.6, marginTop: "6px" }}>სრული KPI-ით: ₾{rawBonus.toFixed(2)}</div>}
+              {kpiPct < 1 && <div style={{ fontSize: "11px", opacity: 0.6, marginTop: "6px" }}>სრული KPI-ით: ₾{perfBonus.toFixed(2)}</div>}
             </div>
           </>}
 
+          {/* ===== BONUS SYSTEM ===== */}
           {tab === 1 && <>
             {card(<>
               {sec("🏆 პერფორმანს ბონუსი — ₾ სასმელზე")}
@@ -211,56 +217,56 @@
             </>)}
 
             {card(<>
-              {sec("👤 რეგისტრაციის ბონუსი")}
-              <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
-                {regBonusData.map((r, i) => (
-                  <div key={i} style={{ flex: 1, textAlign: "center", borderRadius: "12px", padding: "12px 8px", border: `2px solid ${i === 2 ? "#FFD700" : "#e0e0e0"}`, background: i === 2 ? "#FFFBEA" : "#fafafa" }}>
-                    {i === 2 && <div style={{ fontSize: "9px", fontWeight: "700", color: "#DAA520", marginBottom: "2px" }}>🏅 MAX</div>}
-                    <div style={{ fontWeight: "800", fontSize: "18px" }}>{r.count}</div>
-                    <div style={{ fontSize: "10px", color: "#999", marginBottom: "6px" }}>რეგისტრაცია</div>
-                    <div style={{ fontWeight: "800", fontSize: "16px", color: i === 2 ? "#DAA520" : "#333" }}>₾{r.bonus}</div>
+              {sec("⚙️ KPI-ს გავლენა ბონუსზე")}
+              <div style={{ fontSize: "13px", color: "#555", lineHeight: "1.7", marginBottom: "12px" }}>
+                საბოლოო ბონუსი პირდაპირ პროპორციულია KPI შესრულების პროცენტზე:
+                <div style={{ background: "#f8f9fa", borderRadius: "10px", padding: "12px", margin: "10px 0", fontWeight: "700", fontSize: "14px", textAlign: "center" }}>
+                  საბოლოო ბონუსი = პერფ. ბონუსი × KPI%
+                </div>
+                <strong>მაგალითი:</strong> ₾1000 × 70% KPI = <strong style={{ color: "#DAA520" }}>₾700</strong>
+              </div>
+              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                {kpiGroups.map(g => (
+                  <div key={g.key} style={{ flex: "1 1 45%", background: g.bg, borderRadius: "10px", padding: "10px", border: `1px solid ${g.color}33` }}>
+                    <div style={{ fontSize: "12px", fontWeight: "700", color: g.color, marginBottom: "2px" }}>{g.icon} {g.label}</div>
+                    <div style={{ fontSize: "20px", fontWeight: "800", color: g.color }}>{g.weight}%</div>
                   </div>
                 ))}
-              </div>
-              <div style={{ background: "#E8F5E9", borderRadius: "10px", padding: "10px 12px", fontSize: "12px", color: "#2E7D32" }}>
-                ✅ ბონუსი ერიცხება მხოლოდ მაშინ, როდესაც დარეგისტრირებული მომხმარებელი <strong>დაბრუნდება</strong> და <strong>განათავსებს შეკვეთას</strong>.
-              </div>
-            </>)}
-
-            {card(<>
-              {sec("⚙️ KPI-ს გავლენა ბონუსზე")}
-              <div style={{ fontSize: "13px", color: "#555", lineHeight: "1.7" }}>
-                ბონუსის საბოლოო თანხა პროპორციულია KPI-ს შესრულების პროცენტზე:
-                <div style={{ background: "#f8f9fa", borderRadius: "10px", padding: "12px", margin: "10px 0", fontWeight: "700", fontSize: "14px", textAlign: "center" }}>
-                  საბოლოო ბონუსი = (პერფ. + რეგ.) × KPI%
-                </div>
-                <strong>მაგალითი:</strong> ბონუსი ₾1000, KPI 70% → <strong style={{ color: "#DAA520" }}>₾700</strong>
               </div>
             </>)}
           </>}
 
+          {/* ===== KPI SYSTEM ===== */}
           {tab === 2 && <>
             <div style={{ background: "#FFF3CD", borderRadius: "12px", padding: "12px 14px", marginBottom: "14px", fontSize: "12px", color: "#856404", border: "1px solid #FFD700" }}>
-              ⚖️ ყველა KPI <strong>თანაბარი წონით</strong> ითვლება (10%). შემდეგ ეტაპზე შეიძლება შეიცვალოს.
+              📅 შეფასება ყოველთვიურად • შემფასებლები: მონიტორინგის სამსახური (კამერა) + ბარისტა თიმ ლიდერი + საოპერაციო ხელმძღვანელი
             </div>
-            {kpiItems.map((k, i) => (
-              <div key={k.key} style={{ background: "white", borderRadius: "14px", marginBottom: "10px", boxShadow: "0 2px 8px rgba(0,0,0,0.06)", overflow: "hidden" }}>
+            {kpiGroups.map((g, i) => (
+              <div key={g.key} style={{ background: "white", borderRadius: "14px", marginBottom: "10px", boxShadow: "0 2px 8px rgba(0,0,0,0.06)", overflow: "hidden" }}>
                 <div onClick={() => setExpandedKpi(expandedKpi === i ? null : i)}
-                  style={{ padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}>
+                  style={{ padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", borderLeft: `4px solid ${g.color}` }}>
                   <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                    <span style={{ fontSize: "20px" }}>{k.icon}</span>
+                    <span style={{ fontSize: "22px" }}>{g.icon}</span>
                     <div>
-                      <div style={{ fontWeight: "700", fontSize: "13px" }}>{i + 1}. {k.label}</div>
-                      <div style={{ fontSize: "11px", color: "#999" }}>10% წონა</div>
+                      <div style={{ fontWeight: "700", fontSize: "13px", color: g.color }}>{g.label}</div>
+                      <div style={{ fontSize: "11px", color: "#999" }}>წონა: {g.weight}%</div>
                     </div>
                   </div>
-                  <span style={{ color: "#aaa", fontSize: "18px" }}>{expandedKpi === i ? "▲" : "▼"}</span>
+                  <span style={{ color: "#aaa", fontSize: "16px" }}>{expandedKpi === i ? "▲" : "▼"}</span>
                 </div>
                 {expandedKpi === i && (
                   <div style={{ padding: "0 16px 14px", borderTop: "1px solid #f0f0f0" }}>
-                    <div style={{ background: "#f8f9fa", borderRadius: "10px", padding: "10px 12px", marginTop: "10px" }}>
-                      <div style={{ fontSize: "11px", fontWeight: "700", color: "#555", marginBottom: "4px" }}>👥 ვინ აფასებს:</div>
-                      <div style={{ fontSize: "12px", color: "#333" }}>{k.who}</div>
+                    <div style={{ marginTop: "12px", marginBottom: "10px" }}>
+                      {g.items.map((item, j) => (
+                        <div key={j} style={{ display: "flex", gap: "8px", alignItems: "flex-start", marginBottom: "6px" }}>
+                          <span style={{ color: g.color, fontWeight: "700", marginTop: "1px" }}>•</span>
+                          <span style={{ fontSize: "12px", color: "#333" }}>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ background: "#f8f9fa", borderRadius: "10px", padding: "10px 12px" }}>
+                      <div style={{ fontSize: "11px", fontWeight: "700", color: "#555", marginBottom: "3px" }}>👥 ვინ აფასებს:</div>
+                      <div style={{ fontSize: "12px", color: "#333" }}>{g.who}</div>
                     </div>
                   </div>
                 )}
