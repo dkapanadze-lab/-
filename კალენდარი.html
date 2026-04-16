@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meama Collect — კონტენტ კალენდარი</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans Georgian',sans-serif;background:#F7F5F0;color:#1a1a1a;padding:32px 24px;font-size:13px}
+.page{max-width:960px;margin:0 auto}
+.hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;padding-bottom:16px;border-bottom:1.5px solid #1a1a1a}
+.brand{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#888;margin-bottom:4px}
+.title{font-size:26px;font-weight:600;letter-spacing:.02em}
+.meta{text-align:right;font-size:11px;color:#888;line-height:1.6}
+.legend{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
+.leg-sq{width:11px;height:11px;border-radius:3px}
+.week-block{margin-bottom:28px;background:#fff;border-radius:10px;overflow:hidden;border:0.5px solid #ddd}
+.week-hdr{padding:12px 16px;border-bottom:0.5px solid #eee;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.wk-label{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#888}
+.drink-chip{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px}
+.disc-chip{font-size:10px;padding:2px 8px;border-radius:20px;background:#FAEEDA;color:#7a4a00;border:0.5px solid #EF9F27;font-weight:500}
+.dates{font-size:10px;color:#aaa;margin-left:auto}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:0.5px solid #eee}
+.day-col{border-right:0.5px solid #eee}
+.day-col:last-child{border-right:none}
+.day-name{font-size:9px;font-weight:600;letter-spacing:.08em;text-align:center;padding:6px 4px;color:#aaa;background:#fafafa;border-bottom:0.5px solid #eee;text-transform:uppercase}
+.day-name.on{color:#1a1a1a}
+.day-body{min-height:80px;padding:6px}
+.post-card{border-radius:6px;padding:6px 7px;border:0.5px solid transparent}
+.pt-type{font-size:10px;font-weight:600;margin-bottom:2px}
+.pt-fmt{font-size:9px;opacity:.75}
+.detail-section{padding:0}
+.post-detail{padding:14px 16px;border-top:0.5px solid #eee;display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:0;align-items:start}
+.pd-day{font-size:10px;font-weight:600;color:#888;padding-top:2px}
+.pd-col{padding:0 14px;border-right:0.5px solid #eee}
+.pd-col:last-child{border-right:none}
+.pd-label{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:5px}
+.pd-val{font-size:11px;color:#555;line-height:1.6}
+.pd-copy{font-size:11px;color:#1a1a1a;font-style:italic;line-height:1.6}
+.footer{margin-top:24px;padding-top:14px;border-top:0.5px solid #ddd;display:flex;justify-content:space-between;font-size:10px;color:#aaa}
+@media print{
+  body{background:#fff;padding:16px}
+  .week-block{break-inside:avoid;box-shadow:none;border:1px solid #eee}
+  .no-print{display:none}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <div>
+    <div class="brand">Meama Collect</div>
+    <div class="title">კონტენტ კალენდარი</div>
+  </div>
+  <div class="meta">
+    კვირის სასმელი — კამპანია<br>
+    აპრილი – მაისი 2025<br>
+    3 პოსტი / კვირა
+  </div>
+</div>
+
+<div class="legend">
+  <div class="leg"><div class="leg-sq" style="background:#FAEEDA;border:0.5px solid #EF9F27"></div>ორშაბათი — ფასდაკლების რეკლამა</div>
+  <div class="leg"><div class="leg-sq" style="background:#E1F5EE;border:0.5px solid #1D9E75"></div>ოთხშაბათი — მომზადების ვიდეო</div>
+  <div class="leg"><div class="leg-sq" style="background:#E6F1FB;border:0.5px solid #378ADD"></div>პარასკევი — შეხსენება</div>
+</div>
+
+<!-- WEEK 1 -->
+<div class="week-block">
+  <div class="week-hdr">
+    <span class="wk-label">კვირა 1</span>
+    <span class="drink-chip" style="background:#FAEEDA;color:#7a4a00;border:0.5px solid #EF9F27">ტირამისუს ლატე</span>
+    <span class="disc-chip">−40%</span>
+    <span class="dates">21–27 აპრილი</span>
+  </div>
+  <div class="cal-grid">
+    <div class="day-col"><div class="day-name on">ორშ</div><div class="day-body"><div class="post-card" style="background:#FAEEDA;border-color:#EF9F27"><div class="pt-type" style="color:#7a4a00">ფასდაკლების რეკლამა</div><div class="pt-fmt" style="color:#9a6a00">Feed post + Boost</div></div></div></div>
+    <div class="day-col"><div class="day-name">სამშ</div><div class="day-body"></div></div>
+    <div class="day-col"><div class="day-name on">ოთხ</div><div class="day-body"><div class="post-card" style="background:#E1F5EE;border-color:#1D9E75"><div class="pt-type" style="color:#085041">მომზადების ვიდეო</div><div class="pt-fmt" style="color:#0F6E56">Reels · 30–45 წამი</div></div></div></div>
+    <div class="day-col"><div class="day-name">ხუთ</div><div class="day-body"></div></div>
+    <div class="day-col"><div class="day-name on">პარ</div><div class="day-body"><div class="post-card" style="background:#E6F1FB;border-color:#378ADD"><div class="pt-type" style="color:#0C447C">შეხსენება</div><div class="pt-fmt" style="color:#185FA5">Story + Feed</div></div></div></div>
+    <div class="day-col"><div class="day-name">შაბ</div><div class="day-body"></div></div>
+    <div class="day-col"><div class="day-name">კვი</div><div class="day-body"></div></div>
+  </div>
+  <div class="detail-section">
+    <div class="post-detail">
+      <div class="pd-day">ორშაბათი</div>
+      <div class="pd-col"><div class="pd-label">ფორმატი</div><div class="pd-val">Feed post + Boost</div><br><div class="pd-label">მიზანი</div><div class="pd-val">შეტყობინება + კლიკი</div></div>
+      <div class="pd-col"><div class="pd-label">copy</div><div class="pd-copy">"ეს კვირა — ტირამისუს ლატე. იტალიური სიამოვნება კაფსულაში. −40% მხოლოდ 7 დღით."</div></div>
+      <div class="pd-col"><div class="pd-label">ვიზუალი</div><div class="pd-val">პროდუქტის სუფთა ფოტო, მინიმალური ტექსტი, ფასდაკლების badge</div></div>
+    </div>
+    <div class="post-detail">
+      <div class="pd-day">ოთხშაბათი</div>
+      <div class="pd-col"><div class="pd-label">ფორმატი</div><div class="pd-val">Reels / Video (30–45 წამი)</div><br><div class="pd-label">მიზანი</div><div class="pd-val">Engagement + Saves</div></div>
+      <div class="pd-col"><div class="pd-label">copy</div><div class="pd-copy">"tiramisu ნიშნავს — ამიტომელ მაღლა. ასე მზადდება ჭიქა, რომელიც ამაღლებს."</div></div>
+      <div class="pd-col"><div class="pd-label">ვიზუალი</div><div class="pd-val">Step-by-step: კაფსულა → ესპრესო → ვანილი → ქაფი → მზა სასმელი</div></div>
+    </div>
+    <div class="post-detail">
+      <div class="pd-day">პარასკევი</div>
+      <div class="pd-col"><div class="pd-label">ფორმატი</div><div class="pd-val">Story + Feed post</div><br><div class="pd-label">მიზანი</div><div class="pd-val">კონვერსია</div></div>
+      <div class="pd-col"><div class="pd-label">copy</div><div class="pd-copy">"კვირა ბოლოვდება. ფასდაკლებაც. დღეს ბოლო შანსი."</div></div>
+      <div class="pd-col"><div class="pd-label">ვიზუალი</div><div class="pd-val">Countdown timer, პროდუქტი, ბმული</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 2 -->
+<div class="week-block">
+  <div class="week-hdr">
+    <span class="wk-label">კვირა 2</span>
+    <span class="drink-chip" style="background:#EAF3DE;color:#27500A;border:0.5px solid #639922">მარილიანი ფისტაჩიოს ლატე</span>
+    <span class="disc-chip">−35%</span>
+    <span class="dates">28 აპრ – 4 მაისი</span>
+  </div>
+  <div class="cal-grid">
+    <div class="day-col"><div class="day-name on">ორშ</div><div class="day-body"><div class="post-card" style="background:#FAEEDA;border-color:#EF9F27"><div class="pt-type" style="color:#7a4a00">ფასდაკლების რეკლამა</div><div class="pt-fmt" style="color:#9a6a00">Feed post + Boost</div></div></div></div>
+    <div class="day-col"><div class="day-name">სამშ</div><div class="day-body"></div></div>
+    <div class="day-col"><div class="day-name on">ოთხ</div><div class="day-body"><div class="post-card" style="background:#E1F5EE;border-color:#1D9E75"><div class="pt-type" style="color:#085041">მომზადების ვიდეო</div><div class="pt-fmt" style="color:#0F6E56">Reels · 30–45 წამი</div></div></div></div>
+    <div class="day-col"><div class="day-name">ხუთ</div><div class="day-body"></div></div>
+    <div class="day-col"><div class="day-name on">პარ</div><div class="day-body"><div class="post-card" style="background:#E6F1FB;border-color:#378ADD"><div class="pt-type" style="color:#0C447C">შეხსენება</div><div class="pt-fmt" style="color:#185FA5">Story</div></div></div></div>
+    <div class="day-col"><div class="day-name">შაბ</div><div class="day-body"></div></div>
+    <div class="day-col"><div class="day-name">კვი</div><div class="day-body"></div></div>
+  </div>
+  <div class="detail-section">
+    <div class="post-detail">
+      <div class="pd-day">ორშაბათი</div>
+      <div class="pd-col"><div class="pd-label">ფორმატი</div><div class="pd-val">Feed post + Boost</div><br><div class="pd-label">მიზანი</div><div class="pd-val">შეტყობინება + კლიკი</div></div>
+      <div class="pd-col"><div class="pd-label">copy</div><div class="pd-copy">"ახალი კვირა — ახალი სიამოვნება. მარილიანი ფისტაჩიოს ლატე. ტრენდი, რომელიც მსოფლიომ შეაყვარა — −35%."</div></div>
+      <div class="pd-col"><div class="pd-label">ვიზუალი</div><div class="pd-val">მწვანე ტონები, ფისტაჩიო ვიზუალი, ფასდაკლების badge</div></div>
+    </div>
+    <div class="post-detail">
+      <div class="pd-day">ოთხშაბათი</div>
+      <div class="pd-col"><div class="pd-label">ფორმატი</div><div class="pd-val">Reels (30–45 წამი)</div><br><div class="pd-label">მიზანი</div><div class="pd-val">Engagement + Saves</div></div>
+      <div class="pd-col"><div class="pd-label">copy</div><div class="pd-copy">"ზღვის მარილი + ფისტაჩიო + ესპრესო. ჟღერს უჩვეულოდ. გემრიელია ბოლომდე."</div></div>
+      <div class="pd-col"><div class="pd-label">ვიზუალი</div><div class="pd-val">სიროფის დასხმა სლოუ-მოუშნში, ქაფის ფენა, ზღვის მარილის მარცვლები</div></div>
+    </div>
+    <div class="post-detail">
+      <div class="pd-day">პარასკევი</div>
+      <div class="pd-col"><div class="pd-label">ფორმატი</div><div class="pd-val">Story</div><br><div class="pd-label">მიზანი</div><div class="pd-val">კონვერსია</div></div>
+      <div class="pd-col"><div class="pd-label">copy</div><div class="pd-copy">"სცადე სანამ ტრენდი გადის. დღეს ბოლო დღეა."</div></div>
+      <div class="pd-col"><div class="pd-label">ვიზუალი</div><div class="pd-val">Before/After: ჩვეულებრივი ლატე vs. ფისტაჩიოს ლატე</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 3 -->
+<div class="week-block">
+  <div class="week-hdr">
+    <span class="wk-label">კვირა 3</span>
+    <span class="drink-chip" style="background:#E1F5EE;color:#085041;border:0.5px solid #1D9E75">Tropical Fantasy</span>
+    <span class="disc-chip">−30%</span>
+    <span class="dates">5–11 მაისი</span>
+  </div>
+  <div class="cal-grid">
+    <div class="day-col"><div class="day-name on">ორშ</div><div class="day-body"><div class="post-card" style="background:#FAEEDA;border-color:#EF9F27"><div class="pt-type" style="color:#7a4a00">ფასდაკლების რეკლამა</div><div class="pt-fmt" style="color:#9a6a00">Feed post + Boost</div></div></div></div>
+    <div class="day-col"><div class="day-name">სამშ</div><div class="day-body"></div></div>
+    <div class="day-col"><div class="day-name on">ოთხ</div><div class="day-body"><div class="post-card" style="background:#E1F5EE;border-color:#1D9E75"><div class="pt-type" style="color:#085041">მომზადების ვიდეო</div><div class="pt-fmt" style="color:#0F6E56">Reels · 30–45 წამი</div></div></div></div>
+    <div class="day-col"><div class="day-name">ხუთ</div><div class="day-body"></div></div>
+    <div class="day-col"><div class="day-name on">პარ</div><div class="day-body"><div class="post-card" style="background:#E6F1FB;border-color:#378ADD"><div class="pt-type" style="color:#0C447C">შეხსენება</div><div class="pt-fmt" style="color:#185FA5">Story + Feed</div></div></div></div>
+    <div class="day-col"><div class="day-name">შაბ</div><div class="day-body"></div></div>
+    <div class="day-col"><div class="day-name">კვი</div><div class="day-body"></div></div>
+  </div>
+  <div class="detail-section">
+    <div class="post-detail">
+      <div class="pd-day">ორშაბათი</div>
+      <div class="pd-col"><div class="pd-label">ფორმატი</div><div class="pd-val">Feed post + Boost</div><br><div class="pd-label">მიზანი</div><div class="pd-val">შეტყობინება + კლიკი</div></div>
+      <div class="pd-col"><div class="pd-label">copy</div><div class="pd-copy">"ტბილისი ტროპიკი ხდება. Tropical Fantasy — მარაკუია, ჟოლო, ნუშის რძე. −30% ამ კვირას."</div></div>
+      <div class="pd-col"><div class="pd-label">ვიზუალი</div><div class="pd-val">ჩაშვებული ფერები, ეგზოტიკური ვიზუალი, ზაფხულის განწყობა</div></div>
+    </div>
+    <div class="post-detail">
+      <div class="pd-day">ოთხშაბათი</div>
+      <div class="pd-col"><div class="pd-label">ფორმატი</div><div class="pd-val">Reels (30–45 წამი)</div><br><div class="pd-label">მიზანი</div><div class="pd-val">Engagement + Saves</div></div>
+      <div class="pd-col"><div class="pd-label">copy</div><div class="pd-copy">"4 ქვეყანა. 1 ჭიქა. ბრაზილია, საქართველო, იაპონია, მეამა."</div></div>
+      <div class="pd-col"><div class="pd-label">ვიზუალი</div><div class="pd-val">ბლენდერი სლოუ-მოუშნში, ფერების შერევა, მზა სასმელი ყინულზე</div></div>
+    </div>
+    <div class="post-detail">
+      <div class="pd-day">პარასკევი</div>
+      <div class="pd-col"><div class="pd-label">ფორმატი</div><div class="pd-val">Story + Feed</div><br><div class="pd-label">მიზანი</div><div class="pd-val">კონვერსია + UGC</div></div>
+      <div class="pd-col"><div class="pd-label">copy</div><div class="pd-copy">"გადაიღე შენი Tropical Fantasy. @meama — repost ვქნათ. კვირა ბოლოვდება."</div></div>
+      <div class="pd-col"><div class="pd-label">ვიზუალი</div><div class="pd-val">UGC მოწვევა, მომხმარებლის სახელი frame-ში</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>Meama Collect · კვირის სასმელი კამპანია</span>
+  <span>3 კვირა · 9 პოსტი · Instagram + Facebook</span>
+</div>
+
+</div>
+</body>
+</html>
